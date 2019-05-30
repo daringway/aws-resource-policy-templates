@@ -1,0 +1,2 @@
+# aws-resource-policy-templates
+

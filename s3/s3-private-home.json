@@ -1,0 +1,77 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "DenyObjectOthers",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": [
+        "s3:AbortMultipartUpload",
+        "s3:ListMultipartUploadParts",
+        "s3:DeleteObject*",
+        "s3:PutObject*",
+        "s3:GetObject*",
+        "s3:RestoreObject*"
+      ],
+      "NotResource": [
+        "arn:aws:s3:::test-home-1/${aws:username}/*",
+        "arn:aws:s3:::test-home-1/${aws:userid}/*"
+      ]
+    },
+    {
+      "Sid": "DenyListOthers",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": [
+        "s3:ListBucket*"
+      ],
+      "Resource": [
+        "arn:aws:s3:::test-home-1"
+      ],
+      "Condition": {
+        "StringNotLike": {
+          "s3:prefix": [
+            "${aws:username}/*",
+            "${aws:userid}/*"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "OptionalAllowGlobalObject",
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": [
+        "s3:AbortMultipartUpload",
+        "s3:ListMultipartUploadParts",
+        "s3:DeleteObject*",
+        "s3:PutObject*",
+        "s3:GetObject*",
+        "s3:RestoreObject*"
+      ],
+      "NotResource": [
+        "arn:aws:s3:::test-home-1/${aws:username}/*",
+        "arn:aws:s3:::test-home-1/${aws:userid}/*"
+      ]
+    },
+    {
+      "Sid": "OptionalAllowGlobalList",
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": [
+        "s3:ListBucket*"
+      ],
+      "Resource": [
+        "arn:aws:s3:::test-home-1"
+      ],
+      "Condition": {
+        "StringNotLike": {
+          "s3:prefix": [
+            "${aws:username}/*",
+            "${aws:userid}/*"
+          ]
+        }
+      }
+    }
+  ]
+}

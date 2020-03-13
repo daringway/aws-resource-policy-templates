@@ -1,0 +1,89 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "DenyOthers",
+      "Effect": "Deny",
+      "NotPrincipal": {
+        "AWS": [
+          "USER_ARNs",
+          "ADMIN_ARNs"
+        ]
+      },
+      "Action": [
+        "s3:*"
+      ],
+      "Resource": [
+        "arn:aws:s3:::BUCKET",
+        "arn:aws:s3:::BUCKET/*"
+      ]
+    },
+    {
+      "Sid": "DenyUsersAdminAccess",
+      "Effect": "Deny",
+      "Principal": {
+        "AWS": [
+          "USER_ARN"
+        ]
+      },
+      "NotAction": [
+        "s3:ListBucket"
+      ],
+      "Resource": [
+        "arn:aws:s3:::BUCKET"
+      ]
+    },
+    {
+      "Sid": "AllowUsersAccess",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": [
+          "USER_ARN"
+        ]
+      },
+      "Action": [
+        "s3:AbortMultipartUpload",
+        "s3:ListMultipartUploadParts",
+        "s3:DeleteObject*",
+        "s3:PutObject*",
+        "s3:GetObject*",
+        "s3:RestoreObject*",
+        "s3:ListBucket"
+      ],
+      "Resource": [
+        "arn:aws:s3:::BUCKET",
+        "arn:aws:s3:::BUCKET/*"
+      ]
+    },
+    {
+      "Sid": "DenyAdminObjectAccess",
+      "Effect": "Deny",
+      "Principal": {
+        "AWS": [
+          "ADMIN_ARN"
+        ]
+      },
+      "Action": [
+        "s3:*"
+      ],
+      "Resource": [
+        "arn:aws:s3:::BUCKET/*",
+      ]
+    },
+    {
+      "Sid": "AllowAdminAccess",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": [
+          "ADMIN_ARN"
+        ]
+      },
+      "NotAction": [
+        "s3:ListBucket"
+      ],
+      "Resource": [
+        "arn:aws:s3:::BUCKET",
+      ]
+    },
+  ]
+}
